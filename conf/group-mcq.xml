@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mcq>
+	<config readThreadCountEachMcq="1" readCountOnce="100" waitTimeOnce="100" readAndWriteKey="group_message" />
+	
+	<localClients>
+		<client minSpareConnections="2" maxSpareConnections="10" compressEnable="false" localPort="8001" />
+	</localClients>
+	
+	<noticeConfig writeKey="group_gateway_notice" />
+
+	<clients>
+		<client minSpareConnections="2" maxSpareConnections="10" compressEnable="false" serverPort="10.55.45.204:22201" />
+		<client minSpareConnections="2" maxSpareConnections="10" compressEnable="false" serverPort="10.55.45.204:22201" />
+		<client minSpareConnections="2" maxSpareConnections="10" compressEnable="false" serverPort="10.55.45.204:22201" />
+	</clients>
+</mcq>

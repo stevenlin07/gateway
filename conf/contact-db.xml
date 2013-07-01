@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ClusterDatabases>
+   <strategy strategykey="contact" shareDBPrefix="contact_" shareOncePrefix="contact_1" shareTableCount="8" splitCount="256" shareDBCount="32">
+   	<config
+		        driverClass="com.mysql.jdbc.Driver"
+		        minPoolSize="5"
+		        maxPoolSize="500"
+		        idleConnectionTestPeriod="30"
+		        maxIdleTime="20"
+		        breakAfterAcquireFailure="false"
+		        checkoutTimeout="3000"
+		        acquireRetryAttempts="10"
+		        acquireRetryDelay="1000"
+		/>
+	<jdbctemplate>
+		<master
+			url="jdbc:mysql://testdb:3306?useUnicode=true&amp;characterEncoding=UTF-8&amp;autoReconnect=true"
+			user="meyou_test" password="meyou_test" />
+		<slave
+			url="jdbc:mysql://testdb:3306?useUnicode=true&amp;characterEncoding=UTF-8&amp;autoReconnect=true"
+			user="meyou_test" password="meyou_test" />
+	</jdbctemplate>
+   </strategy>
+   
+   <strategy strategykey="contact_invert" shareDBPrefix="contact_invert_" shareOncePrefix="contact_invert_1" shareTableCount="8" splitCount="256" shareDBCount="32">
+   	<config
+		        driverClass="com.mysql.jdbc.Driver"
+		        minPoolSize="5"
+		        maxPoolSize="500"
+		        idleConnectionTestPeriod="30"
+		        maxIdleTime="10"
+		        breakAfterAcquireFailure="false"
+		        checkoutTimeout="3000"
+		        acquireRetryAttempts="10"
+		        acquireRetryDelay="1000"
+		/>
+	<jdbctemplate>
+		<master
+			url="jdbc:mysql://testdb:3306?useUnicode=true&amp;characterEncoding=UTF-8&amp;autoReconnect=true"
+			user="meyou_test" password="meyou_test" />
+		<slave
+			url="jdbc:mysql://testdb:3306?useUnicode=true&amp;characterEncoding=UTF-8&amp;autoReconnect=true"
+			user="meyou_test" password="meyou_test" />
+	</jdbctemplate>
+   </strategy>
+   
+      <strategy strategykey="contact_meta" shareDBPrefix="contact_meta_" shareOncePrefix="contact_meta_1" shareTableCount="1" splitCount="1" shareDBCount="1">
+   	<config
+		        driverClass="com.mysql.jdbc.Driver"
+		        minPoolSize="5"
+		        maxPoolSize="500"
+		        idleConnectionTestPeriod="30"
+		        maxIdleTime="10"
+		        breakAfterAcquireFailure="false"
+		        checkoutTimeout="3000"
+		        acquireRetryAttempts="10"
+		        acquireRetryDelay="1000"
+		/>
+	<jdbctemplate>
+		<master
+			url="jdbc:mysql://testdb:3306?useUnicode=true&amp;characterEncoding=UTF-8&amp;autoReconnect=true"
+			user="meyou_test" password="meyou_test" />
+		<slave
+			url="jdbc:mysql://testdb:3306?useUnicode=true&amp;characterEncoding=UTF-8&amp;autoReconnect=true"
+			user="meyou_test" password="meyou_test" />
+	</jdbctemplate>
+
+   </strategy>
+</ClusterDatabases>

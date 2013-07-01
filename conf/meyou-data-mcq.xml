@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mcq>
+        <!-- normal meta start -->
+	<WesyncMcqProcessorNormal readThreadCountEachMcq="5" readCountOnce="100" waitTimeOnce="100"
+		readAndWriteKey="wesync_normal"
+	/>
+
+	<McqClientsNormal>
+            <McqClient minSpareConnections="2" maxSpareConnections="10" compressEnable="false"
+               serverPort="testmcq:7001"/>
+            <McqClient minSpareConnections="2" maxSpareConnections="10" compressEnable="false"
+               serverPort="testmcq:7001"/>
+	</McqClientsNormal>
+        <!-- normal meta end -->
+
+
+        <!--medium meta start -->
+        <WesyncMcqProcessorMedium readThreadCountEachMcq="5" readCountOnce="100" waitTimeOnce="100"
+                readAndWriteKey="wesync_medium"
+        />
+
+        <McqClientsMedium>
+            <McqClient minSpareConnections="2" maxSpareConnections="10" compressEnable="false"
+               serverPort="testmcq:8001"/>
+            <McqClient minSpareConnections="2" maxSpareConnections="10" compressEnable="false"
+               serverPort="testmcq:8001"/>
+        </McqClientsMedium>
+        <!-- medium meta end -->
+
+
+	<!-- large meta start -->
+        <WesyncMcqProcessorLarge readThreadCountEachMcq="5" readCountOnce="100" waitTimeOnce="100"
+                readAndWriteKey="wesync_large"
+        />
+
+        <McqClientsLarge>
+            <McqClient minSpareConnections="2" maxSpareConnections="10" compressEnable="false"
+               serverPort="testmcq:9001"/>
+            <McqClient minSpareConnections="2" maxSpareConnections="10" compressEnable="false"
+               serverPort="testmcq:9001"/>
+        </McqClientsLarge>
+	<!-- large meta end -->
+
+</mcq>

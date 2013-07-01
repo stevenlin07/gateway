@@ -1,0 +1,123 @@
+<?xml version="1.0"?>
+
+<project name="meyou_gw" default="all" basedir="." xmlns:artifact="antlib:org.apache.maven.artifact.ant">
+	<property name="src.dir" value="${basedir}/src"/>
+	<property name="compile.dir" value="${basedir}/work"/>
+	<property name="lib.dir" value="${basedir}/lib"/>
+	<property name="target.dir" value="${basedir}/target"/>
+	<property name="conf.dir" value="${basedir}/conf"/>
+	<property file="${conf.dir}/build.properties"/>
+
+	<typedef resource="org/apache/maven/artifact/ant/antlib.xml" uri="antlib:org.apache.maven.artifact.ant" classpath="${basedir}/ant-lib/maven-ant-tasks-2.1.3.jar" />
+    <artifact:pom id="meyougwPom" file="${conf.dir}/pom.xml"
+							settingsFile="${conf.dir}/settings.xml"/>
+    <artifact:dependencies pathId="dependency.classpath" pomRefId="meyougwPom">
+    	<localRepository path="${lib.dir}"/>
+  	</artifact:dependencies>
+
+	<target name="dist-clean" depends="clean" description="Cleans up all build-generated output( library cache included )" >
+		<delete dir="${lib.dir}" failonerror="false"/>
+	</target>
+
+	<target name="clean" description="Cleans up all build-generated output">
+		<delete dir="${compile.dir}" failonerror="false"/>
+		<delete dir="${target.dir}"  failonerror="false"/>
+		<echo>clean sucessful!</echo>
+	</target>
+
+	<target name="compile">
+		<mkdir dir="${compile.dir}"/>
+		<javac  destdir="${compile.dir}"  includeAntRuntime="no" encoding="UTF8" debug="true" >
+			<src path="${src.dir}"/>
+			<classpath>
+				<path refid="dependency.classpath"/>
+			</classpath>
+		</javac>
+		<copy todir="${compile.dir}">
+
+			<fileset dir="${src.dir}" includes="**/*.properties" />
+			<fileset dir="${src.dir}" includes="**/*.xml" excludes="build.xml,log4j.xml" />
+		</copy>
+		<echo>compile sucessful!</echo>
+	</target>
+
+	<target name="zipall">
+		<delete dir="${target.dir}"  failonerror="false"/>
+		<jar destfile="${target.dir}/meyou_gw.jar" >
+			<fileset dir="${compile.dir}">
+			    <include name="**/*.class"/>
+			</fileset>
+		</jar>
+		<echo>zip sucessful!</echo>
+	</target>
+
+	<!--target name="testcompile" depends="compile">
+		<mkdir dir="${report.dir}"/>
+		<javac srcdir="${test.dir}" destdir="${compile.dir}" classpathref="compile.dependencies"/>
+		<echo>testcompile sucessful!</echo>
+	</target-->
+
+	<!--target name="testJunitReport" depends="testcompile">
+       <junit printsummary="on" fork="true" showoutput="true">
+           <classpath>
+              <fileset dir="${lib.dir}" includes="**/*.jar"/>
+              <pathelement path="${compile.dir}"/>
+           </classpath>
+           <formatter type="xml"/>
+           <batchtest todir="${report.dir}">
+              <fileset dir="${compile.dir}">
+                  <include name="**/test/*.*"/>
+              </fileset>
+           </batchtest>
+       </junit>
+       <junitreport todir="${report.dir}">
+           <fileset dir="${report.dir}">
+              <include name="TEST-*.xml"/>
+           </fileset>
+           <report format="frames" todir="${report.dir}"/>
+       </junitreport>
+       <echo>testJunitReport sucessful!</echo>
+    </target-->
+
+		<target name="eclipse">
+        <delete file="${basedir}/.classpath" failonerror="false"/>
+        <taskdef name="eclipse" classname="prantl.ant.eclipse.EclipseTask"
+               classpath="${basedir}/ant-lib/ant-eclipse-1.0-jvm1.2.jar"/>
+        <eclipse>
+            <classpath>
+                <source path="src"/>
+                <source path="test"/>
+                <output path="work"/>
+                <library pathref="dependency.classpath"/>
+            </classpath>
+        </eclipse>
+    </target>
+
+	<target name="deploy" depends="zipall">
+      <property name="projectVersion" value="${versionCandidate}-SNAPSHOT"/>
+      <artifact:pom id="commPomDeploy" file="${conf.dir}/pom.xml" settingsFile="${conf.dir}/settings.xml"/>
+ 	  <artifact:writepom pomRefId="commPomDeploy" file="${compile.dir}/pom_deploy.xml"/>
+      <artifact:deploy file="${basedir}/target/${jar.name}">
+        <remoteRepository id="weibo.snapshot" url="http://redmine.intra.weibo.com:8081/nexus/content/repositories/snapshots">
+          <authentication username="${snapshotUser}" password="${snapshotPass}" />
+        </remoteRepository>
+        <!--reload pom file to set the version variable-->
+        <pom id="commPomDeploy2" file="${compile.dir}/pom_deploy.xml" settingsFile="${conf.dir}/settings.xml"/>
+      </artifact:deploy>
+    </target>
+
+	<target name="release" depends="zipall">
+	  <property name="projectVersion" value="${versionCandidate}"/>
+	  <artifact:pom id="commPomRelease" file="${conf.dir}/pom.xml" settingsFile="${conf.dir}/settings.xml"/>
+ 	  <artifact:writepom pomRefId="commPomRelease" file="${compile.dir}/pom_release.xml"/>
+	  <artifact:deploy file="${basedir}/target/${jar.name}">
+		<remoteRepository id="weibo.release" url="http://redmine.intra.weibo.com:8081/nexus/content/repositories/releases">		 
+		  <authentication username="${releaseUser}" password="${releasePass}" /> 
+		</remoteRepository>
+		<pom id="commPomRelease2" file="${compile.dir}/pom_release.xml" settingsFile="${conf.dir}/settings.xml"/>
+	  </artifact:deploy>
+	</target>
+	
+	<target name="all" depends="clean,compile,zipall" />
+
+</project>

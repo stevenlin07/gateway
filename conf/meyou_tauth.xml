@@ -1,0 +1,17 @@
+<meyou_tauth>
+<token_store source="3065004722" desc="Meyou-Android">
+<tauth_token_date>2012-11-26</tauth_token_date>
+<tauth_token>781541</tauth_token>
+<tauth_secret>afa11e479b0a137ec5d4ce5bd2619edf</tauth_secret>
+</token_store>
+<token_store source="2841080378" desc="Meyou-IOS">
+<tauth_token_date>2012-11-26</tauth_token_date>
+<tauth_token>132934</tauth_token>
+<tauth_secret>7bbd859a04cc5058b21a793fcb2f054e</tauth_secret>
+</token_store>
+<token_store source="2502274771" desc="LanShan-zuju-app">
+<tauth_token_date>2012-11-26</tauth_token_date>
+<tauth_token>352880</tauth_token>
+<tauth_secret>51d5e1fe30949a1d895b6d50ca9a8780</tauth_secret>
+</token_store>
+</meyou_tauth>

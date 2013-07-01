@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MemcacheTokenModule expire="21600">
+	<master
+	    minSpareConnections="2" 
+    	maxSpareConnections="15" 
+    	consistentHashEnable="true" 
+    	failover="true"
+        serverport="180.149.138.88:11211"
+	/>
+	<slave    	
+	    minSpareConnections="2" 
+    	maxSpareConnections="15" 
+    	consistentHashEnable="true" 
+    	failover="true"
+        serverport="180.149.138.88:11211"
+    />
+</MemcacheTokenModule>

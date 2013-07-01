@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+
+	<bean id="httpClient" class="cn.vika.imus.util.ApacheHttpClient">
+		<constructor-arg type="int" index="0" value="150" />   <!-- MaxConnectionsPerHost -->
+		<constructor-arg type="int" index="1" value="300" />   <!-- ConnectionTimeout milliseconds, 0 infinite -->
+		<constructor-arg type="int" index="2" value="300" />   <!-- Socket Timeout milliseconds, 0 infinite -->
+		<constructor-arg type="int" index="3" value="1048576" /> <!-- MaxRecSize byte -->
+	</bean>
+
+	<bean id="sinaxs" class="cn.vika.sinaxs.SinaXDataService">
+		<property name="httpClient" ref="httpClient" />
+		<property name="bssoPin" value="70269226506e773f52a5ed9471f1691c" />
+		<property name="bssoUrlPath"
+			value="http://ilogin.sina.com.cn/api/chksso.php?entry=desktop" />
+		<property name="ssoAuthTicketUrl" value="http://ilogin.sina.com.cn/sso/validate.php" />
+	</bean>
+
+	<bean id="authUserSinaxs" class="com.weibo.wesync.authFilter.AuthSinaxs" init-method="init" autowire="byName">
+		<property name="extDataService" ref="sinaxs" />
+	</bean>
+
+
+	<bean id="tokenUidMcAddrYF" class="java.lang.String">
+		<constructor-arg value="172.16.138.92:11211" />
+	</bean>
+
+	<bean id="tokenUidMcAddrTC" class="java.lang.String">
+	    <constructor-arg value="172.16.138.92:11211" />
+	</bean>
+
+	<bean id="tokenUidYF" class="cn.sina.api.commons.cache.driver.VikaCacheClient" init-method="init">
+        <property name="minSpareConnections" value= "2" />
+        <property name="maxSpareConnections" value= "15" />
+        <property name="consistentHashEnable" value= "true" />
+        <property name="failover" value= "true" />
+        <property name="serverPort" ref="tokenUidMcAddrYF" />
+    </bean>
+
+    <bean id="tokenUidTC" class="cn.sina.api.commons.cache.driver.VikaCacheClient" init-method="init">
+        <property name="minSpareConnections" value= "2" />
+        <property name="maxSpareConnections" value= "15" />
+        <property name="consistentHashEnable" value= "true" />
+        <property name="failover" value= "true" />
+        <property name="serverPort" ref="tokenUidMcAddrTC" />
+    </bean>
+
+    <bean id="tokenUidMemCache" class="cn.sina.api.data.storage.cache.MemCacheStorage">
+    	<property name="cacheClientMaster" ref="tokenUidYF"></property>
+        <property name="cacheClientSlave" ref="tokenUidTC"></property>
+        <property name="expire" value="21600"></property>
+    </bean>
+</beans>

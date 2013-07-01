@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+<!--
+    <appender name="CONSOLE" class="org.apache.log4j.ConsoleAppender">
+        <param name="Threshold" value="debug" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="[firehose-web] %p %d{yy/MM/dd HH:mm:ss} %-50.50c - %m%n" />
+        </layout>
+    </appender>
+-->
+<root> 
+    <priority value ="warn" /> 
+    <appender-ref ref="cnfile" /> 
+  </root>
+
+    <appender name="DAILY_FILE" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File" value="../logs/meyou.log" />
+        <param name="Encoding" value="utf-8" />
+        <param name="ImmediateFlush" value="true" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{yy/MM/dd HH:mm:ss} - %m%n" />
+        </layout>
+    </appender>
+
+      <appender name="cnfile" class="org.apache.log4j.DailyRollingFileAppender">
+          <param name="File" value="../logs/warn.log" />
+          <param name="Encoding" value="utf-8" />
+          <param name="ImmediateFlush" value="true" />
+          <layout class="org.apache.log4j.PatternLayout">
+              <param name="ConversionPattern" value="%d{yy/MM/dd HH:mm:ss} - %m%n" />
+          </layout>
+      </appender>
+
+    <appender name="notify" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File" value="../logs/notify.log" />
+        <param name="Encoding" value="utf-8" />
+        <param name="ImmediateFlush" value="true" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{yy/MM/dd HH:mm:ss} - %m%n" />
+        </layout>
+    </appender>
+
+
+     <logger name="com.weibo.platform.commons.switcher">
+          <level value="warn" />
+          <appender-ref ref="DAILY_FILE" />
+      </logger>
+
+
+    <logger name="org.springframework">
+        <level value="error" />
+        <appender-ref ref="DAILY_FILE" />
+    </logger>
+    <logger name="debug_stat">
+        <level value="error" />
+        <appender-ref ref="DAILY_FILE" />
+    </logger>
+
+    <logger name="notify_service">
+        <level value="info" />
+        <appender-ref ref="notify" />
+    </logger>
+
+    <logger name="com.weibo.wesync">
+        <level value="debug" />
+        <appender-ref ref="DAILY_FILE" />
+    </logger>
+    <logger name="com.weibo.meyou">
+        <level value="debug" />
+        <appender-ref ref="DAILY_FILE" />
+    </logger>
+
+    <logger name="com.weibo.meyou.data">
+        <level value="info" />
+        <appender-ref ref="DAILY_FILE" />
+    </logger>
+
+</log4j:configuration>

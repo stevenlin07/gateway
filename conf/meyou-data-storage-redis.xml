@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<FolderStore consistNum="1024" hashAlg="CRC32" suffix=""
+	counterInfo="WesyncFolderStore">
+	<config
+		maxActive="800"
+		maxIdle="40"
+		minIdle="2"
+		whenExhaustedAction="1"
+		maxWait="500"
+		lifo="true"
+
+		testOnBorrow="false"
+		testOnReturn="false"
+		testWhileIdle="true"
+		numTestsPerEvictionRun="-2"
+		timeBetweenEvictionRunsMillis="30000"
+		softMinEvictableIdleTimeMillis="600000"
+		minEvictableIdleTimeMillis="-1"
+	/>
+
+        <folderIdList>
+                        <server hashMin="0" hashMax="1024"
+                                masterServer="testredis:6379" slaveServer="testredis:6379" />
+        </folderIdList>
+
+        <folderChangeList>
+                        <server hashMin="0" hashMax="128"
+                                masterServer="testredis:6379" slaveServer="testredis:6379" />
+                        <server hashMin="128" hashMax="256"
+                                masterServer="testredis:6379" slaveServer="testredis:6379" />
+                        <server hashMin="256" hashMax="384"
+                                masterServer="testredis:6379" slaveServer="testredis:6379" />
+                        <server hashMin="384" hashMax="512"
+                                masterServer="testredis:6379" slaveServer="testredis:6379" />
+                        <server hashMin="512" hashMax="640"
+                                masterServer="testredis:6379" slaveServer="testredis:6379" />
+                        <server hashMin="640" hashMax="768"
+                                masterServer="testredis:6379" slaveServer="testredis:6379" />
+                        <server hashMin="768" hashMax="896"
+                                masterServer="testredis:6379" slaveServer="testredis:6379" />
+                        <server hashMin="896" hashMax="1024"
+                                masterServer="testredis:6379" slaveServer="testredis:6379" />
+        </folderChangeList>
+
+        <folderChildList>
+                        <server hashMin="0" hashMax="128"
+                                masterServer="testredis:6379" slaveServer="testredis:6379" />
+                        <server hashMin="128" hashMax="256"
+                                masterServer="testredis:6379" slaveServer="testredis:6379" />
+                        <server hashMin="256" hashMax="384"
+                                masterServer="testredis:6379" slaveServer="testredis:6379" />
+                        <server hashMin="384" hashMax="512"
+                                masterServer="testredis:6379" slaveServer="testredis:6379" />
+                        <server hashMin="512" hashMax="640"
+                                masterServer="testredis:6379" slaveServer="testredis:6379" />
+                        <server hashMin="640" hashMax="768"
+                                masterServer="testredis:6379" slaveServer="testredis:6379" />
+                        <server hashMin="768" hashMax="896"
+                                masterServer="testredis:6379" slaveServer="testredis:6379" />
+                        <server hashMin="896" hashMax="1024"
+                                masterServer="testredis:6379" slaveServer="testredis:6379" />
+        </folderChildList>
+
+
+</FolderStore>
+

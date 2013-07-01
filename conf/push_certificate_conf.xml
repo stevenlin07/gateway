@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<list>
+	<certificate>
+		<certificate_file_path>../conf/aps_meyou_identity.p12</certificate_file_path>
+		<pwd>abc123</pwd>
+	</certificate>
+	
+	<!--certificate>
+		<certificate_file_path>../conf/dev.p12</certificate_file_path>
+		<pwd>123456</pwd>
+	</certificate-->	
+</list>

@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<service>
+	<HttpClient
+		maxConPerHost="150" 
+		conTimeOutMs="3000" 
+		soTimeOutMs="20000" 
+		maxSize="52428800" 
+		minThread="10" 
+		maxThread="300" 
+	/>
+</service>

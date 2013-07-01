@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service>
+	<HttpClient
+		maxConPerHost="150" 
+		conTimeOutMs="300" 
+		soTimeOutMs="300" 
+		maxSize="1048576" 
+	/>
+	<SinaxsService
+	    bssoPin="70269226506e773f52a5ed9471f1691c"
+	    bssoUrlPath="http://ilogin.sina.com.cn/api/chksso.php?entry=desktop"
+	    ssoAuthTicketUrl="http://ilogin.sina.com.cn/sso/validate.php"
+    />
+</service>

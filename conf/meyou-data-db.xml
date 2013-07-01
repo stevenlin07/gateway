@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ClusterDatabases>
+   <strategy strategykey="meta_message" shareDBPrefix="meta_message_" shareDBCount="32">
+   	<config
+		        driverClass="com.mysql.jdbc.Driver"
+		        minPoolSize="10"
+		        maxPoolSize="100"
+		        idleConnectionTestPeriod="30"
+		        maxIdleTime="10"
+		        breakAfterAcquireFailure="false"
+		        checkoutTimeout="3000"
+		        acquireRetryAttempts="10"
+		        acquireRetryDelay="1000"
+		/>
+   	    <jdbctemplate>
+   	        <master
+   	            url="jdbc:mysql://testdb:3306?useUnicode=true&amp;characterEncoding=UTF-8&amp;autoReconnect=true"
+   	            user="meyou_test"
+   	            password="meyou_test"
+   	        />
+   	        <slave
+   	            url="jdbc:mysql://testdb:3306?useUnicode=true&amp;characterEncoding=UTF-8&amp;autoReconnect=true"
+   	            user="meyou_test"
+   	            password="meyou_test"
+   	        />
+   	    </jdbctemplate>
+   </strategy>
+</ClusterDatabases>

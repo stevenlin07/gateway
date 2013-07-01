@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MemCacheStorageImpl expire="20160">
+
+    <master minSpareConnections="2" maxSpareConnections="10" consistentHashEnable="true" failover="true"
+        serverport="testmc:12012,testmc:12012,testmc:12012,testmc:12012">
+    </master>
+    <slave minSpareConnections="2" maxSpareConnections="10" consistentHashEnable="true" failover="true"
+        serverport="testmc:12012,testmc:12012,testmc:12012,testmc:12012">
+    </slave>
+
+</MemCacheStorageImpl>

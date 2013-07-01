@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+<beans>
+        <!-- 密友关系 MC -->
+        <bean id="tiesMemCache" class="cn.sina.api.data.storage.cache.MemCacheStorage">
+        <property name="cacheClientMaster">
+                        <bean class="cn.sina.api.commons.cache.driver.VikaCacheClient" init-method="init">
+                                <property name="minSpareConnections" value= "2" />
+                                <property name="maxSpareConnections" value= "15" />
+                                <property name="consistentHashEnable" value= "false" />
+                                <property name="failover" value="true" />
+                                <property name="serverPort" value="10.73.89.101:2805,10.73.89.102:2805,10.73.89.103:2805,10.73.89.104:2805,10.73.89.105:2805" />
+                        </bean>
+                </property>
+                <property name="cacheClientSlave">
+                        <bean class="cn.sina.api.commons.cache.driver.VikaCacheClient" init-method="init">
+                                <property name="minSpareConnections" value= "2" />
+                                <property name="maxSpareConnections" value= "15" />
+                                <property name="consistentHashEnable" value= "false" />
+                                <property name="failover" value="true" />
+                                <property name="serverPort" value="10.75.25.229:2805,10.75.25.230:2805,10.75.25.231:2805,10.75.25.232:2805,10.75.25.233:2805" />
+                        </bean>
+                </property>
+                <property name="expire" value="21600"></property>   <!-- minutes -->
+        </bean>
+    <!-- /密友关系 MC -->
+
+
+    <!-- 密友dataSource -->
+    <bean id="dataSourceTiesMaster" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+          <property name="driverClass"><value>com.mysql.jdbc.Driver</value></property>
+          <property name="jdbcUrl"><value>jdbc:mysql://10.210.69.11/ties_0?useUnicode=true&amp;characterEncoding=UTF-8&amp;autoReconnect=true</value></property>
+          <property name="user"><value>test</value></property>
+          <property name="password"><value>testpwd</value></property>
+          <property name="minPoolSize"><value>10</value></property>
+          <property name="maxPoolSize"><value>50</value></property>
+          <property name="idleConnectionTestPeriod"><value>25</value></property>
+          <property name="maxIdleTime"><value>28</value></property>
+          <property name="breakAfterAcquireFailure"><value>false</value></property>
+          <property name="checkoutTimeout"><value>3000</value></property>
+          <property name="acquireRetryAttempts"><value>50</value></property>
+          <property name="acquireRetryDelay"><value>1000</value></property>
+    </bean>
+
+    <bean id="dataSourceTiesSlave" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+          <property name="driverClass"><value>com.mysql.jdbc.Driver</value></property>
+          <property name="jdbcUrl"><value>jdbc:mysql://10.210.69.11/ties_0?useUnicode=true&amp;characterEncoding=UTF-8&amp;autoReconnect=true</value></property>
+          <property name="user"><value>test</value></property>
+          <property name="password"><value>testpwd</value></property>
+          <property name="minPoolSize"><value>10</value></property>
+          <property name="maxPoolSize"><value>50</value></property>
+          <property name="idleConnectionTestPeriod"><value>25</value></property>
+          <property name="maxIdleTime"><value>28</value></property>
+          <property name="breakAfterAcquireFailure"><value>false</value></property>
+          <property name="checkoutTimeout"><value>3000</value></property>
+          <property name="acquireRetryAttempts"><value>50</value></property>
+          <property name="acquireRetryDelay"><value>1000</value></property>
+    </bean>
+
+
+    <!-- 密友关系 Jdbcemplate -->
+    <bean id="jdbcTiesTemplate1" class="cn.sina.api.data.dao.util.JdbcTemplate">
+        <property name="dataSource"><ref bean="dataSourceTiesMaster"/></property>
+        <property name="dataSourceSlaves">
+            <list>
+                 <ref bean="dataSourceTiesSlave"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="jdbcTiesTemplate2" class="cn.sina.api.data.dao.util.JdbcTemplate">
+        <property name="dataSource"><ref bean="dataSourceTiesMaster"/></property>
+        <property name="dataSourceSlaves">
+            <list>
+                 <ref bean="dataSourceTiesSlave"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="jdbcTiesTemplate3" class="cn.sina.api.data.dao.util.JdbcTemplate">
+        <property name="dataSource"><ref bean="dataSourceTiesMaster"/></property>
+        <property name="dataSourceSlaves">
+             <list>
+                 <ref bean="dataSourceTiesSlave"/>
+             </list>
+        </property>
+    </bean>
+
+    <bean id="jdbcTiesTemplate4" class="cn.sina.api.data.dao.util.JdbcTemplate">
+        <property name="dataSource"><ref bean="dataSourceTiesMaster"/></property>
+        <property name="dataSourceSlaves">
+             <list>
+                 <ref bean="dataSourceTiesSlave"/>
+             </list>
+        </property>
+    </bean>
+    <!-- /密友关系 Jdbcemplate -->
+
+
+    <bean id="strongTiesDao" class="cn.sina.api.data.dao.impl.StrongTiesDaoImpl">
+                <property name="dbName" value="ties"></property>
+                <property name="dbCount" value="4"></property>
+                <property name="tableName" value="ties"></property>
+                <property name="tableCount" value="64"></property>
+                <property name="splited" value="true"></property>
+                <property name="prefixedDBName" value="true"></property>
+                <property name="jdbcTiesTemplates">
+                        <list>
+                                <ref bean="jdbcTiesTemplate1"/>
+                                <ref bean="jdbcTiesTemplate2"/>
+                                <ref bean="jdbcTiesTemplate3"/>
+                                <ref bean="jdbcTiesTemplate4"/>
+                        </list>
+                </property>
+        </bean>
+
+
+    <!-- 密友关系 Service -->
+    <bean id="strongTieService" class="cn.sina.api.data.service.impl.StrongTiesServiceImpl">
+                <property name="memCache" ref="tiesMemCache"></property>
+                <property name="strongTiesDao" ref="strongTiesDao"></property>
+                <property name="friendService" ref="friendService"></property>
+        </bean>
+    <!-- /密友关系 Service -->
+    <bean id="friendService" class="cn.sina.api.data.service.impl.FriendServiceImpl" autowire="byName" />
+</beans>
